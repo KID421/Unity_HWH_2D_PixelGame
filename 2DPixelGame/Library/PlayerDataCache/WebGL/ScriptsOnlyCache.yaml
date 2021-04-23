@@ -3,6 +3,7 @@ ScriptsOnlyBuild:
     Assembly-CSharp.dll:
     - Cainos.PixelArtTopDown_Basic.LayerTrigger
     - CameraControl
+    - Enemy
     - FixedJoystick
     - Item
     - Player
@@ -89,17 +90,19 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 12288}
     - Class: 114
-      Script: {instanceID: 13000}
+      Script: {instanceID: 12604}
     - Class: 114
-      Script: {instanceID: 13040}
+      Script: {instanceID: 13002}
     - Class: 114
-      Script: {instanceID: 13446}
+      Script: {instanceID: 13042}
     - Class: 114
-      Script: {instanceID: 13774}
+      Script: {instanceID: 13448}
     - Class: 114
-      Script: {instanceID: 13836}
+      Script: {instanceID: 13776}
     - Class: 114
-      Script: {instanceID: 14392}
+      Script: {instanceID: 13838}
+    - Class: 114
+      Script: {instanceID: 14394}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -107,6 +110,10 @@ ScriptsOnlyBuild:
     - Class: 157
       Script: {instanceID: 0}
     - Class: 196
+      Script: {instanceID: 0}
+    - Class: 198
+      Script: {instanceID: 0}
+    - Class: 199
       Script: {instanceID: 0}
     - Class: 212
       Script: {instanceID: 0}
@@ -403,6 +410,12 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: FloatingJoystick
+  - hash:
+      serializedVersion: 2
+      Hash: f748d68eb59735cdccdb6342db469287
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Enemy
   - hash:
       serializedVersion: 2
       Hash: d4020bafcd3ccbb5601a6e6c8ac78be0
