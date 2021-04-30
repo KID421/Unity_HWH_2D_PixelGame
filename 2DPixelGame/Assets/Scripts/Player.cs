@@ -35,6 +35,12 @@ public class Player : MonoBehaviour
     public AudioSource aud;
     [Header("攻擊音效")]
     public AudioClip soundAttack;
+    [Header("血量")]
+    public float hp = 200;
+    [Header("血條系統")]
+    public HpManager hpManager;
+
+    private float hpMax;
 
     // 事件：繪製圖示
     private void OnDrawGizmos()
@@ -77,9 +83,15 @@ public class Player : MonoBehaviour
         if (hit && hit.collider.tag == "道具") hit.collider.GetComponent<Item>().DropProp();
     }
 
-    private void Hit()
+    // 要被其他腳本呼叫也要設定為公開
+    /// <summary>
+    /// 受傷
+    /// </summary>
+    /// <param name="damage">接收到的傷害值</param>
+    public void Hit(float damage)
     {
-
+        hp -= damage;                               // 扣除傷害值
+        hpManager.UpdateHpBar(hp, hpMax);           // 更新血條
     }
 
     private void Dead()
@@ -91,7 +103,7 @@ public class Player : MonoBehaviour
     // 開始事件：播放後執行一次
     private void Start()
     {
-
+        hpMax = hp;     // 取得血量最大值
     }
 
     // 更新事件：大約一秒執行六十次 60FPS
