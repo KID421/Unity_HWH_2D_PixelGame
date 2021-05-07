@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;   // 引用 介面 API
+using UnityEngine.UI;                       // 引用 介面 API
+using UnityEngine.SceneManagement;          // 引用 場景管理 API
 
 public class Player : MonoBehaviour
 {
@@ -39,6 +40,8 @@ public class Player : MonoBehaviour
     public float hp = 200;
     [Header("血條系統")]
     public HpManager hpManager;
+    [Header("攻擊力"), Range(0, 1000)]
+    public float attack = 20;
 
     private float hpMax;
 
@@ -60,6 +63,8 @@ public class Player : MonoBehaviour
     /// </summary>
     private void Move()
     {
+        if (isDead) return;                 // 如果 死亡 就跳出
+
         float h = joystick.Horizontal;
         float v = joystick.Vertical;
 
@@ -73,6 +78,8 @@ public class Player : MonoBehaviour
     // 要被按鈕呼叫必須設定為公開 public
     public void Attack()
     {
+        if (isDead) return;                 // 如果 死亡 就跳出
+
         // 音效來源.播放一次(音效片段，音量)
         aud.PlayOneShot(soundAttack, 0.5f);
 
@@ -90,14 +97,29 @@ public class Player : MonoBehaviour
     /// <param name="damage">接收到的傷害值</param>
     public void Hit(float damage)
     {
-        hp -= damage;                               // 扣除傷害值
-        hpManager.UpdateHpBar(hp, hpMax);           // 更新血條
-        StartCoroutine(hpManager.ShowDamage());     // 啟動協同程序(顯示傷害值())
+        hp -= damage;                                       // 扣除傷害值
+        hpManager.UpdateHpBar(hp, hpMax);                   // 更新血條
+        StartCoroutine(hpManager.ShowDamage(damage));       // 啟動協同程序(顯示傷害值())
+
+        if (hp <= 0) Dead();                                // 如果 血量 <= 0 就死亡
     }
 
+    /// <summary>
+    /// 死亡
+    /// </summary>
     private void Dead()
     {
+        hp = 0;
+        isDead = true;
+        Invoke("Replay", 2);        // 延遲呼叫("方法名稱"，延遲時間)
+    }
 
+    /// <summary>
+    /// 重新遊戲
+    /// </summary>
+    private void Replay()
+    {
+        SceneManager.LoadScene("遊戲場景");
     }
      
     // 事件 - 特定時間會執行的方法

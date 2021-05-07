@@ -21,8 +21,19 @@ public class Enemy : MonoBehaviour
     /// </summary>
     private float timer;
 
+    [Header("血量")]
+    public float hp = 200;
+    [Header("血條系統")]
+    public HpManager hpManager;
+    [Header("角色是否死亡")]
+    public bool isDead = false;
+
+    private float hpMax;
+
     private void Start()
     {
+        hpMax = hp;     // 取得血量最大值
+
         // 玩家變形 = 尋找遊戲物件("物件名稱").變形
         player = GameObject.Find("玩家").transform;
     }
@@ -83,5 +94,28 @@ public class Enemy : MonoBehaviour
             // 碰到的物件 取得元件<玩家>().受傷(攻擊力)
             hit.GetComponent<Player>().Hit(attack);
         }
+    }
+
+    /// <summary>
+    /// 受傷
+    /// </summary>
+    /// <param name="damage">接收到的傷害值</param>
+    public void Hit(float damage)
+    {
+        hp -= damage;                                       // 扣除傷害值
+        hpManager.UpdateHpBar(hp, hpMax);                   // 更新血條
+        StartCoroutine(hpManager.ShowDamage(damage));       // 啟動協同程序(顯示傷害值())
+
+        if (hp <= 0) Dead();                                // 如果 血量 <= 0 就死亡
+    }
+
+    /// <summary>
+    /// 死亡
+    /// </summary>
+    private void Dead()
+    {
+        hp = 0;
+        isDead = true;
+        Destroy(gameObject, 1.5f);
     }
 }
