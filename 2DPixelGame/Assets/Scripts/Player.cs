@@ -160,7 +160,22 @@ public class Player : MonoBehaviour
             exp -= expNeed;                     // 將多餘的經驗值補回來 ex 120-100=20
             imgExp.fillAmount = exp / expNeed;  // 介面更新
             expNeed = expData.exp[lv - 1];
+            LevelUp();                          // 呼叫升級方法
         }
+    }
+
+    /// <summary>
+    /// 升級後的數據更新，攻擊力與血量，升級後恢復血量
+    /// </summary>
+    private void LevelUp()
+    {
+        // 攻擊力每一等提升 10，從 20 開始
+        attack = 20 + (lv - 1) * 10;
+        // 血量每一等提升 50，從 200 開始
+        hpMax = 200 + (lv - 1) * 50;
+
+        hp = hpMax;                         // 恢復血量全滿
+        hpManager.UpdateHpBar(hp, hpMax);   // 更新血條
     }
 
     [Header("經驗值資料")]
