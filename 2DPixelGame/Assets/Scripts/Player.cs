@@ -50,7 +50,9 @@ public class Player : MonoBehaviour
 
     private bool isDead = false;
     private float hpMax;
-    private int coin;
+    
+    public int coin;
+    public float attackWeapon;
     #endregion
 
     #region 方法
@@ -89,7 +91,9 @@ public class Player : MonoBehaviour
         // 如果 碰到物件存在 並且 碰到的物件 標籤 為 道具 就 取得道具腳本並呼叫掉落道具方法
         if (hit && hit.collider.tag == "道具") hit.collider.GetComponent<Item>().DropProp();
         // 如果 打到的標籤是 敵人 就對她造成傷害
-        if (hit && hit.collider.tag == "敵人") hit.collider.GetComponent<Enemy>().Hit(attack);
+        if (hit && hit.collider.tag == "敵人") hit.collider.GetComponent<Enemy>().Hit(attack + attackWeapon);
+        // 如果 打到的標籤是 NPC 就對開啟商店
+        if (hit && hit.collider.tag == "NPC") hit.collider.GetComponent<NPC>().OpenShop();
     }
 
     // 要被其他腳本呼叫也要設定為公開
@@ -186,6 +190,10 @@ public class Player : MonoBehaviour
     // 開始事件：播放後執行一次
     private void Start()
     {
+        // 給予玩家起始金幣
+        coin = 10;
+        textCoin.text = "金幣：" + coin;
+
         hpMax = hp;     // 取得血量最大值
 
         // 利用公式寫入經驗值資料 - 一等 100，兩等 200....
